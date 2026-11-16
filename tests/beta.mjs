@@ -1,0 +1,32 @@
+import assert from 'node:assert/strict';
+import {resolve} from 'node:path';
+import {pathToFileURL} from 'node:url';
+import {chromium} from 'playwright';
+const browser=await chromium.launch();
+try{
+  const page=await browser.newPage({viewport:{width:390,height:844}});
+  const remote=[],errors=[];
+  page.on('request',r=>{if(/^https?:/.test(r.url()))remote.push(r.url());});
+  page.on('pageerror',err=>errors.push(err.message));
+  await page.goto(pathToFileURL(resolve('beta-output/PICKIT-Beta.html')).href);
+  await page.getByText(/오프라인 베타예요/).waitFor();
+  assert.equal(await page.getByLabel('유튜브 영상 링크').count(),0);
+  await page.getByRole('button',{name:'데모 체험'}).click();
+  await page.getByLabel('포함할 키워드').fill('참여');
+  await page.getByLabel('댓글마다 참여 기회 부여').check();
+  await page.getByLabel('당첨자 수').fill('2');
+  await page.getByRole('button',{name:'추첨 시작'}).click();
+  await page.getByRole('heading',{name:'당첨자 2명'}).waitFor();
+  const names=await page.locator('ol h3').allTextContents();
+  assert.equal(new Set(names).size,2);
+  const saving=page.waitForEvent('download');
+  await page.getByRole('button',{name:'PNG 저장'}).click();
+  assert.equal(await (await saving).failure(),null);
+  assert.deepEqual(remote,[]);assert.deepEqual(errors,[]);
+  const endpoint='http://localhost:3000/api/comments?url=';
+  const bad=await page.request.post(endpoint+'bad');
+  assert.equal(bad.status(),400);
+  const noKey=await page.request.post(endpoint+encodeURIComponent('https://youtu.be/abcDEF12_-3'));
+  assert.equal(noKey.status(),503);
+  assert.match((await noKey.json()).error,/API 키/);
+}finally{await browser.close();}

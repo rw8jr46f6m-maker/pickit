@@ -23,11 +23,19 @@ jobs:
       - run: npm test
       - run: npm run typecheck
       - run: npm run build
-      - run: npm install --no-save --package-lock=false playwright
+      - run: npm install --no-save --package-lock=false playwright esbuild
       - run: npx playwright install --with-deps chromium
+      - run: node scripts/beta.mjs
       - name: Test production UI
         run: |
           npm start > /tmp/pickit.log 2>&1 &
           trap 'kill $! || true; cat /tmp/pickit.log' EXIT
           curl --fail --retry 30 --retry-connrefused --retry-delay 1 http://localhost:3000/ -o /dev/null
           node tests/browser.mjs
+          node tests/beta.mjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: PICKIT-Beta
+          path: beta-output/PICKIT-Beta.html
+          if-no-files-found: error
+          retention-days: 30

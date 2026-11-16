@@ -1,4 +1,7 @@
-# PICKIT
+# PICKIT 베타 1
+
+설치 없이 체험하려면 이 브랜치의 성공한 GitHub Actions 검사에서 PICKIT-Beta 압축 파일을 받아 풀고 PICKIT-Beta.html을 브라우저로 여세요. 데모 체험 → 추첨 시작으로 가상 댓글을 추첨할 수 있습니다. 오프라인 파일은 외부 요청을 보내지 않습니다. 실영상 테스트는 아래의 Next.js 서버에서 진행합니다.
+
 Node.js 22.13 이상. 이 디렉터리에서 npm install, npm test, npm run typecheck, npm run build 순으로 실행하세요. 개발 화면은 npm run dev 후 http://localhost:3000 에서 확인합니다. 첫 설치 시 생성된 package-lock.json을 Git에 포함하세요.
 
 ## 실제 댓글
