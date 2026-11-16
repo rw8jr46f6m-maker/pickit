@@ -1,4 +1,7 @@
-# PICKIT
+# PICKIT 베타 1
+
+설치 없이 체험하려면 이 브랜치의 성공한 GitHub Actions 검사에서 PICKIT-Beta 압축 파일을 받아 풀고 PICKIT-Beta.html을 브라우저로 여세요. 데모 체험 → 추첨 시작으로 가상 댓글을 추첨할 수 있습니다. 오프라인 파일은 외부 요청을 보내지 않습니다. 실영상 테스트는 아래의 Next.js 서버에서 진행합니다.
+
 Node.js 22.13 이상. 이 디렉터리에서 npm install, npm test, npm run typecheck, npm run build 순으로 실행하세요. 개발 화면은 npm run dev 후 http://localhost:3000 에서 확인합니다. 첫 설치 시 생성된 package-lock.json을 Git에 포함하세요.
 
 ## 실제 댓글
@@ -17,7 +20,7 @@ npm test는 고정한 모의 API 응답으로 검사합니다. 브라우저 검�
 app/api/comments/route.ts 서버 환경변수, 입력 검증, 요청 제한, 캐시
 lib/youtube.mjs 공식 API 응답을 공통 Collection 구조로 변환
 lib/types.ts 플랫폼과 독립적인 참여자 및 추첨 결과 타입
-lib/draw.mjs 키워드 적용 후 채널 ID 기준 참여권 구성, Web Crypto 거절 샘플링, 한 채널당 한 자리
+lib/draw.mjs 채널 ID 기준 참여권 구성, Web Crypto 거절 샘플링, 한 채널당 한 자리
 lib/export.ts 텍스트 및 PNG 출력
 app/page.tsx 입력, 데모, 조건, 결과. app/globals.css 반응형·테마
 tests/ 단위 테스트와 선택형 브라우저 테스트
