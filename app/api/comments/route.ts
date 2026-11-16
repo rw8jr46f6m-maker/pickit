@@ -18,7 +18,10 @@ export async function POST(req:Request) {
   const response=(data:unknown,status=200)=>Response.json(data,{status,headers:{'Cache-Control':'no-store'}});
   try {
     const here=new URL(req.url);
-    if(req.headers.get('origin') && req.headers.get('origin')!==here.origin) throw new Problem(403,'사이트에서 직접 이용해 주세요.');
+    const origin=req.headers.get('origin');
+    const codespaceOrigin=process.env.CODESPACE_NAME && process.env.GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN
+      ? `https://${process.env.CODESPACE_NAME}-3000.${process.env.GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN}` : null;
+    if(origin && origin!==here.origin && origin!==codespaceOrigin) throw new Problem(403,'사이트에서 직접 이용해 주세요.');
     throttle(process.env.VERCEL ? req.headers.get('x-vercel-forwarded-for')?.split(',')[0] || 'shared' : 'local');
     const raw=here.searchParams.get('url')||'';
     let id:string;
