@@ -1,0 +1,20 @@
+{
+  "name": "PICKIT beta",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:22",
+  "forwardPorts": [
+    3000
+  ],
+  "portsAttributes": {
+    "3000": {
+      "label": "PICKIT",
+      "onAutoForward": "openPreview"
+    }
+  },
+  "postCreateCommand": "npm install",
+  "postStartCommand": "nohup npm run dev -- --hostname 0.0.0.0 > /tmp/pickit-dev.log 2>&1 < /dev/null &",
+  "secrets": {
+    "YOUTUBE_API_KEY": {
+      "description": "유튜브 영상 댓글을 수집하는 서버 전용 YouTube Data API v3 키"
+    }
+  }
+}

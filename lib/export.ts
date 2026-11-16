@@ -1,6 +1,6 @@
 import type {Result} from './types';
 export function summary(r:Result) {
-  return [r.demo?'PICKIT · 데모 추첨':'PICKIT · 추첨 결과',r.title,new Date(r.time).toLocaleString('ko-KR'), '당첨 '+r.winners.length+'명 · 대상 '+r.tickets+'개 · '+r.people+'명', '최상위 댓글 · '+(r.weighted?'댓글마다 1회':'채널마다 1회')+' · 중복 당첨 없음','키워드 '+(r.keyword||'전체')];
+  return [r.demo?'PICKIT · 데모 추첨':'PICKIT · 추첨 결과',r.title,new Date(r.time).toLocaleString('ko-KR'), '당첨 '+r.winners.length+'명 · 대상 '+r.tickets+'개 · '+r.people+'명', '최상위 댓글 · '+(r.weighted?'댓글마다 1회':'채널마다 1회')+' · 중복 당첨 없음'];
 }
 export function resultText(r:Result) {
   return [...summary(r),'',...r.winners.map((c,i)=>[String(i+1)+'. '+c.name,c.text,c.link].filter(Boolean).join('\n'))].join('\n');

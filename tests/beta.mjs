@@ -12,7 +12,7 @@ try{
   await page.getByText(/오프라인 베타예요/).waitFor();
   assert.equal(await page.getByLabel('유튜브 영상 링크').count(),0);
   await page.getByRole('button',{name:'데모 체험'}).click();
-  await page.getByLabel('포함할 키워드').fill('참여');
+  assert.equal(await page.getByLabel('포함할 키워드').count(),0);
   await page.getByLabel('댓글마다 참여 기회 부여').check();
   await page.getByLabel('당첨자 수').fill('2');
   await page.getByRole('button',{name:'추첨 시작'}).click();

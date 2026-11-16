@@ -20,7 +20,7 @@ npm test는 고정한 모의 API 응답으로 검사합니다. 브라우저 검�
 app/api/comments/route.ts 서버 환경변수, 입력 검증, 요청 제한, 캐시
 lib/youtube.mjs 공식 API 응답을 공통 Collection 구조로 변환
 lib/types.ts 플랫폼과 독립적인 참여자 및 추첨 결과 타입
-lib/draw.mjs 키워드 적용 후 채널 ID 기준 참여권 구성, Web Crypto 거절 샘플링, 한 채널당 한 자리
+lib/draw.mjs 채널 ID 기준 참여권 구성, Web Crypto 거절 샘플링, 한 채널당 한 자리
 lib/export.ts 텍스트 및 PNG 출력
 app/page.tsx 입력, 데모, 조건, 결과. app/globals.css 반응형·테마
 tests/ 단위 테스트와 선택형 브라우저 테스트
