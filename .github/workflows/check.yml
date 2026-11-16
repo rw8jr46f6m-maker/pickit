@@ -1,0 +1,33 @@
+name: PICKIT checks
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      NEXT_TELEMETRY_DISABLED: "1"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: npm install
+      - run: npm test
+      - run: npm run typecheck
+      - run: npm run build
+      - run: npm install --no-save --package-lock=false playwright
+      - run: npx playwright install --with-deps chromium
+      - name: Test production UI
+        run: |
+          npm start > /tmp/pickit.log 2>&1 &
+          trap 'kill $! || true; cat /tmp/pickit.log' EXIT
+          curl --fail --retry 30 --retry-connrefused --retry-delay 1 http://localhost:3000/ -o /dev/null
+          node tests/browser.mjs
